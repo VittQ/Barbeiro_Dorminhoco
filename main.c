@@ -9,7 +9,7 @@
 
 int horas = 0;
 int cliente = 0;
-int dorme = 0;
+float dorme = 0;
 
 sem_t customers;                /* número de cliente à espera de atendimento */
 sem_t barbers;                  /* número de barbeiros à espera de clientes */
@@ -50,7 +50,7 @@ void* barber(void *arg) {
 while(horas<25) {
 horas++;
 sem_wait(&customers);   /* vai dormir se o número de clientes for 0 */
-dorme+=1;
+dorme+=0.1;
 sem_wait(&mutex);       /* obtém acesso a 'waiting' */
 waiting = waiting - 1;  /*descresce de um o contador de clientes à espera */
 sem_post(&barbers);     /* um barbeiro está agora pronto para cortar cabelo */
@@ -88,9 +88,9 @@ sleep(0.41);
 
 void customer_arrived() {
 printf("Cliente chegou para cortar cabelo!\n");
-printf("Dorme: %d, Clientes: %d, Horas:%d ",dorme, cliente, horas);
+printf("Dorme: %f, Clientes: %d, Horas:%d ",dorme, cliente, horas);
 if(horas>24){
-    printf("Dorme: %d, Clientes: %d, Horas:24",dorme, cliente, horas);
+    printf("Dorme: %f, Clientes: %d, Horas:24",dorme, cliente, horas);
   }
 }
 void get_haircut() {
